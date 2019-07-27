@@ -2,6 +2,7 @@ package com.ppmtool.PPM.Controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ppmtool.PPM.Domain.Project;
+import com.ppmtool.PPM.Services.MapValidationError;
 import com.ppmtool.PPM.Services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,22 +22,16 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private MapValidationError mapValidationError;
+
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult){
 
-        if(bindingResult.hasErrors())
-        {
 
-            Map<String,String> errorMap=new HashMap<>();
-
-            for(FieldError field:bindingResult.getFieldErrors()){
-
-                errorMap.put(field.getField(),field.getDefaultMessage());
-
-            }
-
-            return new ResponseEntity<Map<String,String>>(errorMap,HttpStatus.BAD_REQUEST);
-        }
+        ResponseEntity<?> errorMap=mapValidationError.mapValidationError(bindingResult);
+        if(errorMap!=null)
+            return errorMap;
         Project project1=projectService.saveOrUpdateRepository(project);
         return new ResponseEntity<Project>(project, HttpStatus.CREATED);
     }
