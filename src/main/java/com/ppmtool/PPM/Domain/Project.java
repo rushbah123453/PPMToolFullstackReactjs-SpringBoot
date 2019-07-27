@@ -1,7 +1,11 @@
 package com.ppmtool.PPM.Domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -12,13 +16,22 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Project Description Required")
     private String description;
+    @Size(min = 3,max = 4,message = "Project identifier between 3-4 characters")
+    @Column(unique = true,updatable = false)
     private String projectIdentifier;
+    @NotBlank(message = "Project Name Required")
     private String projectName;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date createdAt;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedAt;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date startDate;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date endDate;
+
 
     public Project(){
 
