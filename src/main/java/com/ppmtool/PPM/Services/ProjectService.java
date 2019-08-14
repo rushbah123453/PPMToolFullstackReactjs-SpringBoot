@@ -39,6 +39,11 @@ public class ProjectService {
 
         Project byProjectIdentifier = projectRepository.findByProjectIdentifier(identify.toLowerCase());
             System.out.println(byProjectIdentifier);
+
+            if(byProjectIdentifier==null){
+                throw new ProjectIdException("Project ID"+identify+" does not Exists");
+            }
+
     return byProjectIdentifier;
 
     }
