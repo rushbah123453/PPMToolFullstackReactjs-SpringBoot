@@ -13,6 +13,7 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+
     public Project saveOrUpdateRepository(Project project){
 
 
@@ -30,6 +31,15 @@ public class ProjectService {
 
 
 
+
+    }
+
+
+    public Project getProjectByProjectIdentifier(String identify){
+
+        Project byProjectIdentifier = projectRepository.findByProjectIdentifier(identify.toLowerCase());
+            System.out.println(byProjectIdentifier);
+    return byProjectIdentifier;
 
     }
 
