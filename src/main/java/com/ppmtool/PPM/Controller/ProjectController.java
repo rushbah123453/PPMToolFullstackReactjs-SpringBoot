@@ -37,4 +37,16 @@ public class ProjectController {
     }
 
 
+    @GetMapping("/{projectIdentifier}")
+    public ResponseEntity<?> getProjectByIdentifier(@PathVariable String projectIdentifier){
+
+        System.out.println("projid"+projectIdentifier);
+        Project projectByProjectIdentifier = projectService.getProjectByProjectIdentifier(projectIdentifier);
+        return new ResponseEntity<>(projectByProjectIdentifier,HttpStatus.OK);
+
+
+
+    }
+
+
 }
